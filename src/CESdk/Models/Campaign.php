@@ -97,9 +97,34 @@ class Campaign
     }
 
     //Operations
+    /**
+     * @return Campaign
+     */
     public function update()
     {
         $this->sdk->updateCampaign($this);
+
+        return $this;
+    }
+
+    /**
+     * @return Campaign
+     */
+    public function start()
+    {
+        $this->status = 1;
+        $this->update();
+
+        return $this;
+    }
+
+    /**
+     * @return Campaign
+     */
+    public function stop()
+    {
+        $this->status = 0;
+        $this->update();
 
         return $this;
     }
@@ -123,15 +148,15 @@ class Campaign
     }
 
     /**
-     * @param mixed $endDate
+     * @param \DateTime $endDate
      */
-    public function setEndDate($endDate)
+    public function setEndDate(\DateTime $endDate)
     {
         $this->endDate = $endDate;
     }
 
     /**
-     * @return mixed
+     * @return \DateTime
      */
     public function getEndDate()
     {
@@ -187,15 +212,15 @@ class Campaign
     }
 
     /**
-     * @param mixed $maxAge
+     * @param \DateTime $maxAge
      */
-    public function setMaxAge($maxAge)
+    public function setMaxAge(\DateTime $maxAge)
     {
         $this->maxAge = $maxAge;
     }
 
     /**
-     * @return mixed
+     * @return \DateTime
      */
     public function getMaxAge()
     {
@@ -253,13 +278,13 @@ class Campaign
     /**
      * @param mixed $startDate
      */
-    public function setStartDate($startDate)
+    public function setStartDate(\DateTime $startDate)
     {
         $this->startDate = $startDate;
     }
 
     /**
-     * @return mixed
+     * @return \DateTime
      */
     public function getStartDate()
     {

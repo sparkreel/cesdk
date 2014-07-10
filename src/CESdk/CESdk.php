@@ -88,6 +88,12 @@ class CESdk
             "body"=>array(
                 "campaignId"=>$campaign->getId(),
                 "client_name"=>$campaign->getClientName(),
+                "name"=>$campaign->getName(),
+                "start_date"=>$campaign->getStartDate()->format('Y-m-d H:i:s'),
+                "end_date"=>$campaign->getEndDate()->format('Y-m-d H:i:s'),
+                "max_age"=>$campaign->getMaxAge()->format('Y-m-d H:i:s'),
+                "status"=>$campaign->getStatus(),
+                "exclude_instagram_comments"=>$campaign->getExcludeInstagramComments() ? 1 : 0,
             ),
         ));
 
