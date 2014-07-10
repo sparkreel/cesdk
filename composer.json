@@ -1,0 +1,13 @@
+{
+    "name": "sparkreel/cesdk",
+    "description": "Curation Engine SDK",
+    "authors": [
+        {
+            "name": "Tabaré Caorsi",
+            "email": "tabare@sparkreel.com"
+        }
+    ],
+    "require": {
+
+    }
+}
