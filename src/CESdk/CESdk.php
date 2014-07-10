@@ -154,6 +154,23 @@ class CESdk
 
         return $campaign;
     }
+
+    public function getCampaign($campaignId)
+    {
+        $client = $this->getClient();
+        $res = $client->get('campaigns/'.$campaignId);
+
+        $result = $res->json();
+
+        if (!$result['code'] == '200') {
+            throw new Exception('Error while trying to fetch campaign');
+        }
+
+        $campaign = Campaign::createFromArray($result['results'], $this);
+
+        return $campaign;
+    }
+
     protected function getClient()
     {
         if (empty($this->apiKey)) {
