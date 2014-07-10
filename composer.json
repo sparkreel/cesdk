@@ -8,6 +8,9 @@
         }
     ],
     "require": {
-
+        "guzzlehttp/guzzle": "4.*"
+    },
+    "autoload": {
+        "psr-0": { "": "src/" }
     }
 }
