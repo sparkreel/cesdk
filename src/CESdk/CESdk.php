@@ -139,6 +139,21 @@ class CESdk
         return $campaign;
     }
 
+    public function deleteCampaign($campaignId)
+    {
+        $client = $this->getClient();
+        $res = $client->delete('campaigns/'.$campaignId);
+
+        $result = $res->json();
+
+        if (!$result['code'] == '200') {
+            throw new Exception('Error while trying to delete campaign');
+        }
+
+        $campaign = Campaign::createFromArray($result['results'], $this);
+
+        return $campaign;
+    }
     protected function getClient()
     {
         if (empty($this->apiKey)) {

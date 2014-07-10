@@ -129,6 +129,18 @@ class Campaign
         return $this;
     }
 
+    public function delete()
+    {
+        $ret = $this->sdk->deleteCampaign($this->id);
+        $this->deleted = true;
+
+        return $ret;
+    }
+
+    public function isDeleted()
+    {
+        return $this->deleted;
+    }
 
     //Getter and Setters
     /**
