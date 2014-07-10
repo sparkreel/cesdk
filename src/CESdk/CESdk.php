@@ -7,6 +7,8 @@
 
 namespace CESdk;
 
+use CESdk\Models\Campaign;
+use CESdk\Utils\Collection;
 use GuzzleHttp\Client;
 
 class CESdk
@@ -57,6 +59,9 @@ class CESdk
         return $this->baseUrl;
     }
 
+    /**
+     * @return Campaign[]
+     */
     public function getCampaigns()
     {
         $res = $this->getClient()->get('campaigns');
@@ -67,9 +72,33 @@ class CESdk
             return false;
         }
 
-        return $result;
+        $collection  = new Collection();
+
+        foreach($result['results'] as $c) {
+            $collection->add(Campaign::createFromArray($c, $this));
+        }
+
+        return $collection;
     }
 
+    public function updateCampaign(Campaign $campaign)
+    {
+        $client = $this->getClient();
+        $res = $client->put('campaigns/'.$campaign->getId(), array(
+            "body"=>array(
+                "campaignId"=>$campaign->getId(),
+                "client_name"=>$campaign->getClientName(),
+            ),
+        ));
+
+        $result = $res->json();
+
+        if (!$result['code'] == '200') {
+            throw new Exception('Error while trying to update campaign');
+        }
+
+        return Campaign::createFromArray($result['results']);
+    }
 
     protected function getClient()
     {
