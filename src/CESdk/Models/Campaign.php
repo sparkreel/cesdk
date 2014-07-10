@@ -54,7 +54,7 @@ class Campaign
      * @param bool $deleted
      * @param CESdk $sdk
      */
-    function __construct($name, $clientName, array $keywords, array $sources, $startDate, $endDate, $maxAge, $status=0,
+    function __construct($name, $clientName, array $keywords, array $sources, \DateTime  $startDate, \DateTime  $endDate, \DateTime  $maxAge, $status=0,
                          $id=null, $excludeInstagramComments = false, $videoCount = 0, $processedCount = 0, $deleted = false, CESdk $sdk = null)
     {
         $this->clientName = $clientName;

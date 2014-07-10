@@ -106,6 +106,39 @@ class CESdk
         return Campaign::createFromArray($result['results']);
     }
 
+    public function createCampaign($name, $clientName, array $keywords, array $sources, \DateTime  $startDate, \DateTime  $endDate,
+                                   \DateTime  $maxAge, $status=0, $excludeInstagramComments = false) {
+
+        if ($endDate < new \DateTime()) {
+            throw new Exception("End date can't be in the past");
+        }
+
+        $client = $this->getClient();
+        $res = $client->post('campaigns', array(
+            "body"=>array(
+                "client_name"=>$clientName,
+                "name"=>$name,
+                "start_date"=>$startDate->format('Y-m-d H:i:s'),
+                "end_date"=>$endDate->format('Y-m-d H:i:s'),
+                "max_age"=>$maxAge->format('Y-m-d H:i:s'),
+                "status"=>$status,
+                "exclude_instagram_comments"=>$excludeInstagramComments ? 1 : 0,
+                "keywords"=>implode('|', $keywords),
+                "sources"=>implode('|', $sources),
+            ),
+        ));
+
+        $result = $res->json();
+
+        if (!$result['code'] == '200') {
+            throw new Exception('Error while trying to create campaign');
+        }
+
+        $campaign = Campaign::createFromArray($result['results'], $this);
+
+        return $campaign;
+    }
+
     protected function getClient()
     {
         if (empty($this->apiKey)) {
