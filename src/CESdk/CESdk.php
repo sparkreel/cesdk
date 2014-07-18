@@ -8,6 +8,7 @@
 namespace CESdk;
 
 use CESdk\Models\Campaign;
+use CESdk\Models\Content;
 use CESdk\Utils\Collection;
 use GuzzleHttp\Client;
 
@@ -168,7 +169,39 @@ class CESdk
 
         $campaign = Campaign::createFromArray($result['results'], $this);
 
+        //Run a first page content request to get total number of videos
+        $client = $this->getClient();
+        $res = $client->get(sprintf('content?campaign_id=%u&page=%u&results_per_page=%u',$campaign->getId(), 1, 1));
+
+        $result = $res->json();
+
+        if (!$result['code'] == '200') {
+            throw new Exception('Error while trying to fetch campaign content');
+        }
+
+        $campaign->setVideoCount($result['total_results']);
+
         return $campaign;
+    }
+
+    public function getCampaignContent(Campaign $campaign, $page=1, $perPage = 50)
+    {
+        $client = $this->getClient();
+        $res = $client->get(sprintf('content?campaign_id=%u&page=%u&results_per_page=%u',$campaign->getId(), $page, $perPage));
+
+        $result = $res->json();
+
+        if (!$result['code'] == '200') {
+            throw new Exception('Error while trying to fetch campaign');
+        }
+
+        $collection = new Collection();
+
+        foreach ($result['results'] as $r) {
+            $collection->add(Content::createFromArray($campaign, $r));
+        }
+
+        return $collection;
     }
 
     protected function getClient()

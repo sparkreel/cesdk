@@ -129,6 +129,11 @@ class Campaign
         return $this;
     }
 
+    public function getContent($page = 1, $perPage = 50)
+    {
+        return $this->sdk->getCampaignContent($this, $page, $perPage);
+    }
+
     public function delete()
     {
         $ret = $this->sdk->deleteCampaign($this->id);
