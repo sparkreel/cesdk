@@ -204,6 +204,30 @@ class CESdk
         return $collection;
     }
 
+    public function getCampaignTopContent(Campaign $campaign, $network='youtube', $page=1, $perPage = 50, $srStatus=0, &$videoCount=null)
+    {
+        $client = $this->getClient();
+        $res = $client->get(sprintf('dashboards/top-content?campaign_id=%u&page=%u&results_per_page=%u&source=%s&srstatus=%u',$campaign->getId(), $page, $perPage, $network, $srStatus));
+
+        $result = $res->json();
+
+        if (!$result['code'] == '200') {
+            throw new Exception('Error while trying to fetch campaign');
+        }
+
+        $collection = new Collection();
+
+        foreach ($result['results'] as $r) {
+            $collection->add(Content::createFromArray($campaign, $r));
+        }
+
+        if ($videoCount !== null) {
+            $videoCount = (int)$result['total_results'];
+        }
+
+        return $collection;
+    }
+
     protected function getClient()
     {
         if (empty($this->apiKey)) {

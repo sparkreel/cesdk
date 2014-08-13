@@ -134,6 +134,11 @@ class Campaign
         return $this->sdk->getCampaignContent($this, $page, $perPage);
     }
 
+    public function getTopContent($network='youtube', $page = 1, $perPage = 50, $srStatus=0, &$totalVideos=null)
+    {
+        return $this->sdk->getCampaignTopContent($this, $network, $page, $perPage, $srStatus, $totalVideos);
+    }
+
     public function delete()
     {
         $ret = $this->sdk->deleteCampaign($this->id);

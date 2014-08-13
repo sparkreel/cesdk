@@ -40,6 +40,7 @@ class Content
     private $processedAt = null;
     private $keyword = '';
     private $userNativeId = '';
+    private $popularity = null;
 
     public function __construct($id, Campaign $campaign)
     {
@@ -54,6 +55,18 @@ class Content
      */
     public static function createFromArray(Campaign $campaign, array $array)
     {
+        $defaults = array(
+            "view_count"=>0,
+            "like_count"=>0,
+            "dislike_count"=>0,
+            "favorite_count"=>0,
+            "comment_count"=>0,
+            "tw_share_count"=>0,
+            "fb_share_count"=>0,
+        );
+
+        $array = array_merge($defaults, $array);
+
         $content = new self($array['id'], $campaign);
         $content->setSource($array['source']);
         $content->setFoundAt(new \DateTime($array['found_at']));
@@ -79,6 +92,10 @@ class Content
         }
         $content->setKeyword($array['keyword']);
         $content->setUserNativeId($array['user_native_id']);
+
+        if (isset($array['popularity'])) {
+            $content->popularity = $array['popularity'];
+        }
 
         return $content;
     }
@@ -465,6 +482,22 @@ class Content
     public function getViewCount()
     {
         return $this->viewCount;
+    }
+
+    /**
+     * @param null $popularity
+     */
+    public function setPopularity($popularity)
+    {
+        $this->popularity = $popularity;
+    }
+
+    /**
+     * @return null
+     */
+    public function getPopularity()
+    {
+        return $this->popularity;
     }
 
 
