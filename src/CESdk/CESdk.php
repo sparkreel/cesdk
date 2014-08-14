@@ -107,6 +107,24 @@ class CESdk
         return Campaign::createFromArray($result['results']);
     }
 
+    public function updateContent(Content $content)
+    {
+        $client = $this->getClient();
+        $res = $client->put('content/'.$content->getId(), array(
+            "body"=>array(
+                "srstatus"=>$content->getSrStatus(),
+            ),
+        ));
+
+        $result = $res->json();
+
+        if (!$result['code'] == '200') {
+            throw new Exception('Error while trying to update campaign');
+        }
+
+        return $content;
+    }
+
     public function createCampaign($name, $clientName, array $keywords, array $sources, \DateTime  $startDate, \DateTime  $endDate,
                                    \DateTime  $maxAge, $status=0, $excludeInstagramComments = false) {
 

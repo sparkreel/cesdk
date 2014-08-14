@@ -9,6 +9,7 @@ namespace CESdk\Models;
 
 
 use CESdk\Models\Campaign;
+use CESdk\Utils\ToArray;
 
 class Content
 {
@@ -41,6 +42,9 @@ class Content
     private $keyword = '';
     private $userNativeId = '';
     private $popularity = null;
+    private $srStatus = null;
+
+    use ToArray;
 
     public function __construct($id, Campaign $campaign = null)
     {
@@ -94,7 +98,13 @@ class Content
         $content->setUserNativeId($array['user_native_id']);
 
         if (isset($array['popularity'])) {
-            $content->popularity = $array['popularity'];
+            $content->setPopularity($array['popularity']);
+        }
+
+        if (isset($array['sr_status'])) {
+            $content->setSrStatus($array['sr_status']);
+        } else if (isset($array['srstatus'])) {
+            $content->setSrStatus($array['srstatus']);
         }
 
         return $content;
@@ -500,6 +510,20 @@ class Content
         return $this->popularity;
     }
 
+    /**
+     * @param null $srStatus
+     */
+    public function setSrStatus($srStatus)
+    {
+        $this->srStatus = $srStatus;
+    }
 
+    /**
+     * @return null
+     */
+    public function getSrStatus()
+    {
+        return $this->srStatus;
+    }
 
 } 

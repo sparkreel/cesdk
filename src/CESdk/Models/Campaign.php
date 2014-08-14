@@ -9,6 +9,7 @@ namespace CESdk\Models;
 
 
 use CESdk\CESdk;
+use CESdk\Utils\ToArray;
 
 class Campaign
 {
@@ -37,6 +38,8 @@ class Campaign
     const STATUS_RUNNING = 1;
     const STATUS_STOPPED = 0;
 
+
+    use ToArray;
 
     /**
      * @param $name
