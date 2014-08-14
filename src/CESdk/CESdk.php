@@ -228,6 +228,22 @@ class CESdk
         return $collection;
     }
 
+    public function findContent($contentId, Campaign $campaign=null)
+    {
+        $client = $this->getClient();
+        $res = $client->get(sprintf('content/%u', $contentId));
+
+        $result = $res->json();
+
+        if (!$result['code'] == '200') {
+            throw new Exception('Error while trying to fetch campaign');
+        }
+
+        $content = Content::createFromArray($campaign, $result['results']);
+
+        return $content;
+    }
+
     protected function getClient()
     {
         if (empty($this->apiKey)) {

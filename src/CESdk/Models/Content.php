@@ -42,7 +42,7 @@ class Content
     private $userNativeId = '';
     private $popularity = null;
 
-    public function __construct($id, Campaign $campaign)
+    public function __construct($id, Campaign $campaign = null)
     {
         $this->id = $id;
         $this->campaign = $campaign;
@@ -53,7 +53,7 @@ class Content
      * @param array $array
      * @return Campaign|Content
      */
-    public static function createFromArray(Campaign $campaign, array $array)
+    public static function createFromArray(Campaign $campaign=null, array $array=array())
     {
         $defaults = array(
             "view_count"=>0,

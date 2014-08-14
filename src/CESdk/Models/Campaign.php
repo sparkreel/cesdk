@@ -152,6 +152,11 @@ class Campaign
         return $this->deleted;
     }
 
+    public function find($cid)
+    {
+        return $this->sdk->findContent($cid, $this);
+    }
+
     //Getter and Setters
     /**
      * @param mixed $clientName
