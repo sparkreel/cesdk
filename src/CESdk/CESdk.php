@@ -225,7 +225,7 @@ class CESdk
     public function getCampaignTopContent(Campaign $campaign, $network='youtube', $page=1, $perPage = 50, $srStatus=0, &$videoCount=null)
     {
         $client = $this->getClient();
-        $res = $client->get(sprintf('dashboards/top-content?campaign_id=%u&page=%u&results_per_page=%u&source=%s&srstatus=%u',$campaign->getId(), $page, $perPage, $network, $srStatus));
+        $res = $client->get(sprintf('dashboards/content/exposed?campaign_id=%u&page=%u&results_per_page=%u&source=%s&srstatus=%u',$campaign->getId(), $page, $perPage, $network, $srStatus));
 
         $result = $res->json();
 
