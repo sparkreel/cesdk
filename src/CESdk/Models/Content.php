@@ -41,6 +41,7 @@ class Content
     private $processedAt = null;
     private $keyword = '';
     private $userNativeId = '';
+    private $userReach = 0;
     private $popularity = null;
     private $srStatus = null;
 
@@ -105,6 +106,10 @@ class Content
             $content->setSrStatus($array['sr_status']);
         } else if (isset($array['srstatus'])) {
             $content->setSrStatus($array['srstatus']);
+        }
+
+        if (isset($array['followers'])) {
+            $content->setUserReach($array['followers']);
         }
 
         return $content;
@@ -526,4 +531,19 @@ class Content
         return $this->srStatus;
     }
 
+    /**
+     * @param int $userReach
+     */
+    public function setUserReach($userReach)
+    {
+        $this->userReach = $userReach;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserReach()
+    {
+        return $this->userReach;
+    }
 } 
