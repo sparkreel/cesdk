@@ -222,10 +222,20 @@ class CESdk
         return $collection;
     }
 
-    public function getCampaignTopContent(Campaign $campaign, $network='youtube', $page=1, $perPage = 50, $srStatus=0, &$videoCount=null)
+    public function getCampaignTopContent(Campaign $campaign, $network='youtube', $page=1, $perPage = 50, $srStatus=0,  \DateTime $dateFrom=null, \DateTime $dateTo=null, &$videoCount=null)
     {
         $client = $this->getClient();
-        $res = $client->get(sprintf('dashboards/content/exposed?campaign_id=%u&page=%u&results_per_page=%u&source=%s&srstatus=%u',$campaign->getId(), $page, $perPage, $network, $srStatus));
+        $url = sprintf('dashboards/content/exposed?campaign_id=%u&page=%u&results_per_page=%u&source=%s&srstatus=%u',$campaign->getId(), $page, $perPage, $network, $srStatus);
+
+        if (!empty($dateFrom)) {
+            $url .= sprintf('&date_from=%s', $dateFrom->format('Y-m-d'));
+        }
+
+        if (!empty($dateTo)) {
+            $url .= sprintf('&date_to=%s', $dateTo->format('Y-m-d'));
+        }
+
+        $res = $client->get($url);
 
         $result = $res->json();
 

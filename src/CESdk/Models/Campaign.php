@@ -137,9 +137,9 @@ class Campaign
         return $this->sdk->getCampaignContent($this, $page, $perPage);
     }
 
-    public function getTopContent($network='youtube', $page = 1, $perPage = 50, $srStatus=0, &$totalVideos=null)
+    public function getTopContent($network='youtube', $page = 1, $perPage = 50, $srStatus=0, \DateTime $dateFrom=null, \DateTime $dateTo=null, &$totalVideos=null)
     {
-        return $this->sdk->getCampaignTopContent($this, $network, $page, $perPage, $srStatus, $totalVideos);
+        return $this->sdk->getCampaignTopContent($this, $network, $page, $perPage, $srStatus,  $dateFrom, $dateTo, $totalVideos);
     }
 
     public function delete()
